@@ -10,11 +10,11 @@ from mrwalk import MrWalk
 class Surreal:
     def __init__(self):
         
-        self.charles = MrWalk(' ".." / "Goldfinch')
+        self.charles = MrWalk(' "." / "SurrealPythonDocs" ')
         
         print("Charles Walk is charged")
         
-        self.structure = self.charles.walk()
+        self.structure = self.charles.walk([".py"], [".git", ".vscode"])
         
         print(f"The structure is: {self.structure}")
     
