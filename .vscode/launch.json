@@ -8,7 +8,7 @@
             "name": "Exercises",
             "type": "debugpy",
             "request": "launch",
-            "program": "${cwd}\\exercises.py",
+            "program": "${cwd}\\surreal.py",
             "console": "integratedTerminal"
         }
     ]
