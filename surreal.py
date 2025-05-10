@@ -17,6 +17,14 @@ class Surreal:
         self.structure = self.charles.walk([".py"], [".git", ".vscode"])
         
         print(f"The structure is: {self.structure}")
+        
+        print(self.charles.tree())
+        
+        self.structure = self.charles.prune(["SurrealPythonDocs", "trash"])
+        
+        print(f"The structure after pruning example is: {self.structure}")
+        
+        print(self.charles.tree())
     
 if __name__ == "__main__":
     Surreal()
