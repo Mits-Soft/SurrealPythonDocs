@@ -1,35 +1,49 @@
-# mi_script.py
-from mrwalk import MrWalk
-import sys
+from MrWalk import MrWalk
 from pathlib import Path
 
-ruta_base = Path(__file__).resolve().parent.parent
-mrwalk_path = ruta_base / 'MrWalk'
+class SurrealPythonDocs:
+    def __init__(self, root_path="."):
+        """
+        Inicializa la clase con el directorio base a explorar.
+        Si no se proporciona root_path, se usa el directorio actual.
+        """
+        self.set_root_path(root_path)
+        print(f"Surreal initialized with root_path: {self.root_path}")
 
-if mrwalk_path not in sys.path:
-    sys.path.append(str(mrwalk_path))
+    def set_root_path(self, root_path):
+        """
+        Cambia el root_path y reinicia el objeto MrWalk.
+        """
+        self.root_path = Path(root_path).resolve()
+        self.charles = MrWalk(str(self.root_path))
+        print(f"Root path set to: {self.root_path}")
 
+    def walk(self, include_extensions=None, exclude_dirs=None):
+        """
+        Realiza un recorrido por los archivos y directorios.
+        """
+        include_extensions = include_extensions or [".py"]
+        exclude_dirs = exclude_dirs or [".git", ".vscode"]
+        self.tree = self.charles.walk(include_extensions, exclude_dirs)
+        print(f"Tree structure: {self.tree}")
+        return self.tree
 
-class Surreal:
-    def __init__(self):
+    def prune(self, exclude_dirs):
+        """
+        Elimina directorios específicos del recorrido.
+        """
+        self.tree = self.charles.prune(exclude_dirs)
+        print(f"Pruned tree structure: {self.tree}")
+        return self.tree
 
-        self.charles = MrWalk(' "." / "SurrealPythonDocs" ')
-
-        print("Charles Walk is charged")
-
-        self.structure = self.charles.walk([".py"], [".git", ".vscode"])
-
-        print(f"The structure is: {self.structure}")
-
-        print(self.charles.tree())
-
-        self.structure = self.charles.prune(["SurrealPythonDocs", "trash"])
-
-        print(f"The structure after pruning example is: {self.structure}")
-
-        print(self.charles.tree())
-
-
+    def tree(self):
+        """
+        Devuelve la representación en árbol del directorio.
+        """
+        tree_output = self.charles.tree()
+        print(tree_output)
+        return tree_output
+    
 class HtmlDocument:
     def __init__(self, title, year, company, license):
         self.template = f"""
@@ -110,7 +124,3 @@ class MethodDiv:
             "<!-- Aquí se describirá el valor de retorno del método -->",
             f"<p>{return_description}</p>"
         )
-
-
-if __name__ == "__main__":
-    Surreal()

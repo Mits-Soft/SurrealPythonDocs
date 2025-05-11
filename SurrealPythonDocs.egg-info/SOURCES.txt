@@ -1,0 +1,8 @@
+README.md
+setup.py
+SurrealPythonDocs/__init__.py
+SurrealPythonDocs/surreal_python_docs.py
+SurrealPythonDocs.egg-info/PKG-INFO
+SurrealPythonDocs.egg-info/SOURCES.txt
+SurrealPythonDocs.egg-info/dependency_links.txt
+SurrealPythonDocs.egg-info/top_level.txt
