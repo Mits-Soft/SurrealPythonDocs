@@ -3,7 +3,10 @@ import sys
 from pathlib import Path
 
 ruta_base = Path(__file__).resolve().parent.parent
-sys.path.append(str(ruta_base / 'MrWalk'))
+mrwalk_path = ruta_base / 'MrWalk'
+
+if mrwalk_path not in sys.path:
+    sys.path.append(str(mrwalk_path))
 
 from mrwalk import MrWalk
 
