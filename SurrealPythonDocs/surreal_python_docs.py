@@ -1,5 +1,6 @@
 from MrWalk import MrWalk
 from pathlib import Path
+import re
 
 class SurrealPythonDocs:
     def __init__(self, root_path="."):
@@ -8,24 +9,26 @@ class SurrealPythonDocs:
         Si no se proporciona root_path, se usa el directorio actual.
         """
         self.set_root_path(root_path)
-        print(f"Surreal initialized with root_path: {self.root_path}")
+        self.tree = None
+        self.generated_docstrings = {}
+        print(f"SurrealPythonDocs: Surreal initialized with root_path: {self.root_path}")
 
     def set_root_path(self, root_path):
         """
         Cambia el root_path y reinicia el objeto MrWalk.
         """
-        self.root_path = Path(root_path).resolve()
+        self.root_path = Path(root_path)
         self.charles = MrWalk(str(self.root_path))
-        print(f"Root path set to: {self.root_path}")
+        print(f"SurrealPythonDocs: Root path set to: {self.root_path}")
 
-    def walk(self, include_extensions=None, exclude_dirs=None):
+    def walk(self, include_extensions=None, exclude=None):
         """
         Realiza un recorrido por los archivos y directorios.
         """
         include_extensions = include_extensions or [".py"]
-        exclude_dirs = exclude_dirs or [".git", ".vscode"]
-        self.tree = self.charles.walk(include_extensions, exclude_dirs)
-        print(f"Tree structure: {self.tree}")
+        exclude = exclude or [".git", ".vscode"]
+        self.tree = self.charles.walk(include_extensions, exclude)
+        print(f"SurrealPythonDocs: Tree structure: {self.tree}")
         return self.tree
 
     def prune(self, exclude_dirs):
@@ -33,16 +36,76 @@ class SurrealPythonDocs:
         Elimina directorios específicos del recorrido.
         """
         self.tree = self.charles.prune(exclude_dirs)
-        print(f"Pruned tree structure: {self.tree}")
+        print(f"SurrealPythonDocs: Pruned tree structure: {self.tree}")
         return self.tree
 
-    def tree(self):
+    def show_tree(self):
         """
         Devuelve la representación en árbol del directorio.
         """
         tree_output = self.charles.tree()
         print(tree_output)
         return tree_output
+
+    def extract_docstrings(self):
+        """
+        Extrae los docstrings de los archivos .py en el árbol,
+        reconstruyendo las rutas a partir de la estructura del objeto tree.
+        También incluye el path relativo del archivo y el número de línea del objeto.
+        """
+        if not self.tree:
+            print("SurrealPythonDocs: No tree structure found. Run walk() first.")
+            return []
+
+        docstrings = {}
+
+        def traverse_tree(tree, current_path=""):
+            for key, value in tree.items():
+                new_path = f"{current_path}/{key}".lstrip("/") if current_path else key
+                if isinstance(value, dict):
+                    traverse_tree(value, new_path)
+                elif key.endswith(".py"):
+                    file_path = new_path
+                    with open(file_path, "r", encoding="utf-8") as file:
+                        lines = file.readlines()
+                        visited_objects = set()  # Para evitar duplicados
+                        for i, line in enumerate(lines):
+                            if '"""' in line or "'''" in line:
+                                # Buscar la línea anterior con class o def
+                                title = "Module-level docstring"
+                                line_number = i + 1  # Línea del docstring (1-based index)
+                                for j in range(i - 1, -1, -1):
+                                    stripped_line = lines[j].strip()
+                                    if stripped_line.startswith(("class ", "def ")):
+                                        title = stripped_line.split("(")[0].strip()  # Extract class or function name
+                                        line_number = j + 1  # Línea del objeto (1-based index)
+                                        break
+
+                                # Evitar duplicados
+                                object_key = (file_path, title, line_number)
+                                if object_key in visited_objects:
+                                    continue
+                                visited_objects.add(object_key)
+
+                                # Extraer el contenido del docstring
+                                docstring_lines = [line.strip()]
+                                for k in range(i + 1, len(lines)):
+                                    docstring_lines.append(lines[k].strip())
+                                    if lines[k].strip().endswith(('"""', "'''")):
+                                        break
+                                description = "\n".join(docstring_lines).strip('"""').strip("'''").strip()
+                                if file_path not in docstrings:
+                                    docstrings[file_path] = []
+                                docstrings[file_path].append({
+                                    "title": title,
+                                    "description": description,
+                                    "line_number": line_number
+                                })
+
+        traverse_tree(self.tree)
+        print(f"SurrealPythonDocs: Extracted docstrings: {docstrings}")
+        self.generated_docstrings = docstrings
+        return docstrings
     
 class HtmlDocument:
     def __init__(self, title, year, company, license):
@@ -124,3 +187,7 @@ class MethodDiv:
             "<!-- Aquí se describirá el valor de retorno del método -->",
             f"<p>{return_description}</p>"
         )
+
+
+# if __name__ == "__main__":
+#     SurrealPythonDocs()
