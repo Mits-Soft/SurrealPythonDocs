@@ -1,0 +1,60 @@
+<div>
+    <h1>class ClassDiv</h1>
+    <p>Class representing the classes docstrings</p>
+    <div class="methods">
+        <h2>Methods</h2>
+        <div>
+            <h3>
+                <div class="method">
+                    <h3>def __init__</h3>
+                    <p>self.template = f"""
+                    <div>
+                        <h1>{name}</h1>
+                        <p>{description.replace(\'\\n\', \'<br>\')}</p>
+                        <div class="methods">
+                            <h2>Methods</h2><!-- Methods for this class will be added here -->
+                        </div>
+                    </div>
+                    </p>
+                    <div class="parameters">
+                        <h4>Parameters</h4>
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="return">
+                        <h4>Returns</h4>
+                    </div>
+                    <div class="raises">
+                        <h4>Raises</h4>
+                    </div>
+                </div>
+            </h3>
+        </div>
+        <div>
+            <h3>
+                <div class="method">
+                    <h3>def add_methods</h3>
+                    <p>Replace the methods placeholder with a list of methods in HTML."""methods_html = "".join(f"
+                    <div>
+                        <h3>{method.replace(\'\\n\', \'\')}</h3>
+                    </div>" for method in methods)self.template =
+                    self.template.replace("<!-- Methods for this class will be added here -->", methods_html)class
+                    MethodDiv:</p>
+                    <div class="parameters">
+                        <h4>Parameters</h4>
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="return">
+                        <h4>Returns</h4>
+                    </div>
+                    <div class="raises">
+                        <h4>Raises</h4>
+                    </div>
+                </div>
+            </h3>
+        </div>
+    </div>
+</div>

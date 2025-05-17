@@ -1,0 +1,154 @@
+<div>
+    <h1>class MethodDiv</h1>
+    <p>Class representing the methods docstrings</p>
+    <div class="methods">
+        <h2>Methods</h2>
+        <div>
+            <h3>
+                <div class="method">
+                    <h3>def __init__</h3>
+                    <p>self.template = f"""
+                    <div class="method">
+                        <h3>{name}</h3>
+                        <p>{description.replace(\'\\n\', \'\')}</p>
+                        <div class="parameters">
+                            <h4>Parameters</h4>
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div class="return">
+                            <h4>Returns</h4>
+                            <ul>
+                                <li><!-- Method return value will be described here --></li>
+                                <li>
+                        </div>
+                        </li>
+                        <li>
+                            <div class="raises">
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="raises">
+                        <h4>Raises</h4>
+                        <ul>
+                            <li><!-- Method exceptions will be described here --></li>
+                            <li>
+                    </div>
+                    </li>
+                    <li>
+                </div>
+                </li>
+                </ul>
+        </div>
+    </div>
+    </p>
+    <div class="parameters">
+        <h4>Parameters</h4>
+        <ul>
+            <li></li>
+        </ul>
+    </div>
+    <div class="return">
+        <h4>Returns</h4>
+        <ul>
+            <li><!-- Method return value will be described here --></li>
+            <li>
+    </div>
+    </li>
+    <li>
+        <div class="raises">
+    </li>
+    </ul>
+</div>
+<div class="raises">
+    <h4>Raises</h4>
+    <ul>
+        <li><!-- Method exceptions will be described here --></li>
+        <li>
+</div>
+</li>
+<li>
+    </div>
+</li>
+</ul>
+</div>
+</div>
+</h3>
+</div>
+<div>
+    <h3>
+        <div class="method">
+            <h3>def add_parameters</h3>
+            <p>Replace the parameters placeholder with a list of parameters in HTML."""parameters_html = "".join(f"<li>
+                    {param}</li>" for param in parameters)self.template = self.template.replace("
+            <ul>
+                <li></li>
+            </ul>",f"<ul>{parameters_html}</ul>")def add_return(self, return_description):"""Replace the return
+            placeholder with a description of the return value.</p>
+            <div class="parameters">
+                <h4>Parameters</h4>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="return">
+                <h4>Returns</h4>
+            </div>
+            <div class="raises">
+                <h4>Raises</h4>
+            </div>
+        </div>
+    </h3>
+</div>
+<div>
+    <h3>
+        <div class="method">
+            <h3>def add_return</h3>
+            <p>Replace the return placeholder with a description of the return value."""if
+                isinstance(return_description, list):return_html = "".join(f"<li>{item}</li>" for item in
+                return_description if item)return_html = f"
+            <ul>{return_html}</ul>" if return_html else ""else:return_html = f"<p>{return_description}</p>"self.template
+            = self.template.replace("",return_html)def add_raises(self, raises_description):"""Replace the raises
+            placeholder with a description of the exceptions raised.</p>
+            <div class="parameters">
+                <h4>Parameters</h4>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="return">
+                <h4>Returns</h4>
+            </div>
+            <div class="raises">
+                <h4>Raises</h4>
+            </div>
+        </div>
+    </h3>
+</div>
+<div>
+    <h3>
+        <div class="method">
+            <h3>def add_raises</h3>
+            <p>Replace the raises placeholder with a description of the exceptions raised."""if
+                isinstance(raises_description, list):raises_html = "".join(f"<li>{item}</li>" for item in
+                raises_description if item)raises_html = f"
+            <ul>{raises_html}</ul>" if raises_html else ""else:raises_html = f"<p>{raises_description}</p>"self.template
+            = self.template.replace("",raises_html)# if __name__ == "__main__":# SurrealPythonDocs()</p>
+            <div class="parameters">
+                <h4>Parameters</h4>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="return">
+                <h4>Returns</h4>
+            </div>
+            <div class="raises">
+                <h4>Raises</h4>
+            </div>
+        </div>
+    </h3>
+</div>
+</div>
+</div>

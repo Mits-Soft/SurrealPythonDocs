@@ -1,0 +1,83 @@
+/* Dark Theme CSS */
+body {
+    background: #000;
+    color: #FFF;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 2em;
+    background: #111;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px #333;
+}
+
+h1 {
+    color: #eee;
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+h2 {
+    color: #eee;
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+h3 {
+    color: #eee;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 0.4em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+h4, h5, h6 {
+    color: #eee;
+    font-size: 1em;
+    font-weight: 500;
+    margin-bottom: 0.3em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+p, div.method, div.class {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+div.method, div.class {
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin: 1em 0;
+    padding: 1em;
+    box-shadow: 0 2px 8px #333;
+}
+
+pre, code {
+    background: #111;
+    color: #CFCFCF;
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+}
+
+a {
+    color: #6CF;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    color: #666;
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: 2em;
+}

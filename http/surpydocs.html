@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="light_styles.css">
+    <title>JsonDot</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <div>
+            <h1>class SurrealPythonDocs</h1>
+            <p>SurrealPythonDocs is a class to explore Python project directories,<br>extract docstrings from source
+                files, and generate structured documentation<br>from the collected information.<br><br>It allows
+                traversing directory trees, filtering files, extracting class and method names,<br>and rendering
+                documentation in HTML format. It is designed to facilitate automatic documentation<br>of Python
+                projects, providing utilities to analyze code structure and its documentation comments.</p>
+            <div class="methods">
+                <h2>Methods</h2>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __init__</h3>
+                            <p>Initializes the class with the base directory to explore.If root_path is not provided,
+                                the current directory is used.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def set_root_path</h3>
+                            <p>Cambia el root_path y reinicia el objeto MrWalk.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def walk</h3>
+                            <p>Realiza un recorrido por los archivos y directorios.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def prune</h3>
+                            <p>Elimina directorios específicos del recorrido.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def show_tree</h3>
+                            <p>Devuelve la representación en árbol del directorio.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def extract_docstrings</h3>
+                            <p>Extrae los docstrings de los archivos .py en el árbol,reconstruyendo las rutas a partir
+                                de la estructura del objeto tree.También incluye el path relativo del archivo y el
+                                número de línea del objeto.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def traverse_tree</h3>
+                            <p>if \'"""\' in line or "\'\'\'" in line:# Buscar la línea anterior con class o deftitle =
+                                "Module-level docstring"# Línea del docstring (1-based index)line_number = i + 1for j in
+                                range(i - 1, -1, -1):stripped_line = lines[j].strip()if stripped_line.startswith(("class
+                                ", "def ")):title = self.extract_node_name_from_line(stripped_line)# Línea del objeto
+                                (1-based index)line_number = j + 1break# Evitar duplicadosobject_key = (file_path,
+                                title, line_number)if object_key in
+                                visited_objects:continuevisited_objects.add(object_key)# Extraer el contenido del
+                                docstringdocstring_lines = [line.strip()]for k in range(i + 1,
+                                len(lines)):docstring_lines.append(lines[k].strip())if
+                                lines[k].strip().endswith((\'"""\', "\'\'\'")):breakdescription =
+                                "\\n".join(docstring_lines).strip(\'"""\').strip("\'\'\'").strip()if file_path not in
+                                docstrings:docstrings[file_path] = []docstrings[file_path].append({"title":
+                                title,"description": description,"line_number":
+                                line_number})traverse_tree(self.tree)print(f"SurrealPythonDocs: Extracted docstrings:
+                                {docstrings}")self.generated_docstrings = docstringsreturn docstringsdef
+                                render_document(self, data: dict = [], title: str = "Title", year: str = "2025",
+                                company: str = "Mits-Soft", license: str = "MIT Licenes"):</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def render_document</h3>
+                            <p>Renders an html document.Args:data (obj): the pertinent data retrieved from the
+                                directories walktitle: title of the html pageyear: creation yearcompany: company the
+                                document belongs tolicense: asociated license to the contentReturns:rendered_page (str):
+                                the html markup generated from the data</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>data (obj): the pertinent data retrieved from the directories walk</li>
+                                    <li>title: title of the html page</li>
+                                    <li>year: creation year</li>
+                                    <li>company: company the document belongs to</li>
+                                    <li>license: asociated license to the content</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>rendered_page (str): the html markup generated from the data</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1>class HtmlDocument</h1>
+            <p>Class representing the html document the docstrings are rendered to</p>
+            <div class="methods">
+                <h2>Methods</h2>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __init__</h3>
+                            <p>self.template = f"""
+                                <!DOCTYPE html>
+                                <html lang="en">
+
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <link rel="stylesheet" href="light_styles.css">
+                                    <title>{title}</title>
+                                </head>
+
+                                <body>
+                                    <div class="main-container"><!-- Content goes here --></div>
+                                </body>
+                                <footer>
+                                    <p>&copy; {year} {company}. All rights reserved. Licensed under {license}.</p>
+                                </footer>
+
+                                </html>
+                            </p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def add_content</h3>
+                            <p>Reemplaza el marcador de contenido en el template."""self.template =
+                                self.template.replace("<!-- Content goes here -->", content.replace(\'\\n\', \'\'))class
+                                ClassDiv:</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1>class ClassDiv</h1>
+            <p>Class representing the classes docstrings</p>
+            <div class="methods">
+                <h2>Methods</h2>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __init__</h3>
+                            <p>self.template = f"""
+                            <div>
+                                <h1>{name}</h1>
+                                <p>{description.replace(\'\\n\', \'<br>\')}</p>
+                                <div class="methods">
+                                    <h2>Methods</h2><!-- Methods for this class will be added here -->
+                                </div>
+                            </div>
+                            </p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def add_methods</h3>
+                            <p>Replace the methods placeholder with a list of methods in HTML."""methods_html =
+                                "".join(f"
+                            <div>
+                                <h3>{method.replace(\'\\n\', \'\')}</h3>
+                            </div>" for method in methods)self.template =
+                            self.template.replace("<!-- Methods for this class will be added here -->",
+                            methods_html)class MethodDiv:</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1>class MethodDiv</h1>
+            <p>Class representing the methods docstrings</p>
+            <div class="methods">
+                <h2>Methods</h2>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __init__</h3>
+                            <p>self.template = f"""
+                            <div class="method">
+                                <h3>{name}</h3>
+                                <p>{description.replace(\'\\n\', \'\')}</p>
+                                <div class="parameters">
+                                    <h4>Parameters</h4>
+                                    <ul>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                <div class="return">
+                                    <h4>Returns</h4>
+                                    <ul>
+                                        <li><!-- Method return value will be described here --></li>
+                                        <li>
+                                </div>
+                                </li>
+                                <li>
+                                    <div class="raises">
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                                <ul>
+                                    <li><!-- Method exceptions will be described here --></li>
+                                    <li>
+                            </div>
+                            </li>
+                            <li>
+                        </div>
+                        </li>
+                        </ul>
+                </div>
+            </div>
+            </p>
+            <div class="parameters">
+                <h4>Parameters</h4>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="return">
+                <h4>Returns</h4>
+                <ul>
+                    <li><!-- Method return value will be described here --></li>
+                    <li>
+            </div>
+            </li>
+            <li>
+                <div class="raises">
+            </li>
+            </ul>
+        </div>
+        <div class="raises">
+            <h4>Raises</h4>
+            <ul>
+                <li><!-- Method exceptions will be described here --></li>
+                <li>
+        </div>
+        </li>
+        <li>
+    </div>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </h3>
+    </div>
+    <div>
+        <h3>
+            <div class="method">
+                <h3>def add_parameters</h3>
+                <p>Replace the parameters placeholder with a list of parameters in HTML."""parameters_html = "".join(f"
+                    <li>{param}</li>" for param in parameters)self.template = self.template.replace("
+                <ul>
+                    <li></li>
+                </ul>",f"<ul>{parameters_html}</ul>")def add_return(self, return_description):"""Replace the return
+                placeholder with a description of the return value.</p>
+                <div class="parameters">
+                    <h4>Parameters</h4>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="return">
+                    <h4>Returns</h4>
+                </div>
+                <div class="raises">
+                    <h4>Raises</h4>
+                </div>
+            </div>
+        </h3>
+    </div>
+    <div>
+        <h3>
+            <div class="method">
+                <h3>def add_return</h3>
+                <p>Replace the return placeholder with a description of the return value."""if
+                    isinstance(return_description, list):return_html = "".join(f"<li>{item}</li>" for item in
+                    return_description if item)return_html = f"
+                <ul>{return_html}</ul>" if return_html else ""else:return_html = f"<p>{return_description}</p>
+                "self.template = self.template.replace("",return_html)def add_raises(self,
+                raises_description):"""Replace the raises placeholder with a description of the exceptions raised.</p>
+                <div class="parameters">
+                    <h4>Parameters</h4>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="return">
+                    <h4>Returns</h4>
+                </div>
+                <div class="raises">
+                    <h4>Raises</h4>
+                </div>
+            </div>
+        </h3>
+    </div>
+    <div>
+        <h3>
+            <div class="method">
+                <h3>def add_raises</h3>
+                <p>Replace the raises placeholder with a description of the exceptions raised."""if
+                    isinstance(raises_description, list):raises_html = "".join(f"<li>{item}</li>" for item in
+                    raises_description if item)raises_html = f"
+                <ul>{raises_html}</ul>" if raises_html else ""else:raises_html = f"<p>{raises_description}</p>
+                "self.template = self.template.replace("",raises_html)# if __name__ == "__main__":# SurrealPythonDocs()
+                </p>
+                <div class="parameters">
+                    <h4>Parameters</h4>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="return">
+                    <h4>Returns</h4>
+                </div>
+                <div class="raises">
+                    <h4>Raises</h4>
+                </div>
+            </div>
+        </h3>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+<footer>
+    <p>&copy; 2023 MitsSoft. All rights reserved. Licensed under MIT License.</p>
+</footer>
+
+</html>

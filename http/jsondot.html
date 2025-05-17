@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="light_styles.css">
+    <title>JsonDot</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <div>
+            <h1>class Dot</h1>
+            <p>Dot is a class that provides functionality for managing JSON-like data structures<br>with additional
+                features such as dynamic attribute setting, JSON serialization,<br>and field name
+                translation.<br>Attributes:<br>file_path (Optional[str]): The file path associated with the Dot
+                instance.<br>translation (dict): A dictionary used for translating field
+                names.<br>Methods:<br>__init__(file_path: Optional[str] = None) -> None:<br>Initializes a Dot instance
+                with an optional file path.<br>__str__() -> str:<br>Returns a string representation of the Dot
+                instance.<br>__setattr__(name: str, value: Any) -> None:<br>Dynamically sets attributes, processing
+                lists and dictionaries as needed.<br>set_file_path(path: str):<br>Sets the file path for the Dot
+                instance.<br>loads(s: str):<br>Loads JSON data from a string using the JsonDot
+                utility.<br>load(path):<br>Loads JSON data from a file.<br>_load(path):<br>Internal method to load JSON
+                data from a file and update the file path.<br>__load_data(data: Union[dict, list]):<br>Processes and
+                loads data into a Dot instance.<br>format_param(param):<br>Formats a parameter name and updates the
+                translation dictionary.<br>process_list(l: list):<br>Processes a list using the JsonDot
+                utility.<br>process_list_for_load(l: list):<br>Processes a list for loading using the JsonDot
+                utility.<br>process_list_for_dumps(l: list):<br>Processes a list for dumping using the JsonDot
+                utility.<br>format_json(s: str):<br>Formats a JSON string using the JsonDot utility.<br>remove_slash(s:
+                str):<br>Removes slashes from a string using the JsonDot utility.<br>load_field(name, value):<br>Loads a
+                field into the Dot instance, formatting the field name.<br>add_field(name, value):<br>Adds a field to
+                the Dot instance, formatting the field name and processing lists if
+                necessary.<br>change_field_name(name, new_name):<br>Changes the name of an existing field, updating the
+                translation dictionary.<br>dumps():<br>Serializes the Dot instance to a JSON
+                string.<br>_dumps():<br>Internal method to serialize the Dot instance to a JSON-compatible
+                dictionary.<br>dump(path: Optional[str] = None):<br>Serializes the Dot instance and writes it to a
+                file.<br>items():<br>Returns the items of the Dot instance, applying field name
+                translations.<br>translate(dictionary: dict, translation):<br>Translates field names in a dictionary
+                using the provided translation mapping.</p>
+            <div class="methods">
+                <h2>Methods</h2>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __init__</h3>
+                            <p>Initializes a new instance of the class.Args:file_path (Optional[str]): The path to the
+                                file. Defaults to None.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>file_path (Optional[str]): The path to the file. Defaults to None.</li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __str__</h3>
+                            <p>Returns a string representation of the object\'s dictionary.This method is used to
+                                provide a human-readable string representationof the object by converting its internal
+                                `__dict__` attribute, whichcontains all the instance attributes, into a
+                                string.Returns:str: A string representation of the object\'s dictionary.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: A string representation of the object\'s dictionary.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __setattr__</h3>
+                            <p>Overrides the default behavior of setting an attribute on the object.If a translation
+                                mapping is defined and the attribute name is not in thetranslation, the name is
+                                formatted using the `format_param` method.Additionally, if the value being set is a list
+                                or a dictionary, it isprocessed accordingly before being assigned.Args:name (str): The
+                                name of the attribute to set.value (Any): The value to assign to the
+                                attribute.Raises:AttributeError: If the attribute cannot be set.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>name (str): The name of the attribute to set.</li>
+                                    <li>value (Any): The value to assign to the attribute.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                                <ul>
+                                    <li>AttributeError: If the attribute cannot be set.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def set_file_path</h3>
+                            <p>Sets the file path for the current instance.Args:path (str): The file path to be set.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (str): The file path to be set.</li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def loads</h3>
+                            <p>Parses a JSON-formatted string and returns a JsonDot object.Args:s (str): The
+                                JSON-formatted string to be parsed.Returns:JsonDot: An instance of JsonDot initialized
+                                with the parsed data.Raises:ValueError: If the input string is not a valid JSON.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>s (str): The JSON-formatted string to be parsed.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>JsonDot: An instance of JsonDot initialized with the parsed data.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                                <ul>
+                                    <li>ValueError: If the input string is not a valid JSON.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def load</h3>
+                            <p>Load data from the specified file path.Args:path (str): The file path to load the data
+                                from.Returns:Any: The data loaded from the file.Raises:Exception: If there is an error
+                                during the loading process.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (str): The file path to load the data from.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Any: The data loaded from the file.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                                <ul>
+                                    <li>Exception: If there is an error during the loading process.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def _load</h3>
+                            <p>Load a JSON file from the specified path and return its contents.If the loaded data is an
+                                instance of `Dot`, the `file_path` attributeof the current object is updated to the
+                                provided path.Args:path (str): The file path to the JSON file to be loaded.Returns:Any:
+                                The contents of the loaded JSON file, which could be anyvalid JSON data type (e.g.,
+                                dict, list, etc.).</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (str): The file path to the JSON file to be loaded.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Any: The contents of the loaded JSON file, which could be any</li>
+                                    <li>valid JSON data type (e.g., dict, list, etc.).</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __load_data</h3>
+                            <p>Loads the provided data into a JsonDot object.Args:data (Union[dict, list]): The data to
+                                be loaded, which can be either a dictionary or a list.Returns:JsonDot: An instance of
+                                JsonDot containing the loaded data.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>data (Union[dict, list]): The data to be loaded, which can be either a
+                                        dictionary or a list.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>JsonDot: An instance of JsonDot containing the loaded data.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def format_param</h3>
+                            <p>Formats a parameter and updates the translation mapping.This method takes a parameter,
+                                formats it using the `JsonDot.format_param`method, and stores the mapping between the
+                                formatted parameter and theoriginal parameter in the `translation` dictionary.Args:param
+                                (Any): The parameter to be formatted.Returns:Any: The formatted parameter.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>param (Any): The parameter to be formatted.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Any: The formatted parameter.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list</h3>
+                            <p>Processes a list using the JsonDot class.Args:l (list): The list to be
+                                processed.Returns:The result of processing the list using the JsonDot class and
+                                thespecified file path.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>The result of processing the list using the JsonDot class and the</li>
+                                    <li>specified file path.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list_for_load</h3>
+                            <p>Processes a list for loading by delegating to the static
+                                method`JsonDot.process_list_for_load`.Args:l (list): The list to be
+                                processed.Returns:The result of processing the list using
+                                `JsonDot.process_list_for_load`.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>The result of processing the list using `JsonDot.process_list_for_load`.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list_for_dumps</h3>
+                            <p>Processes a list for serialization in the dumps method.This method is a wrapper that
+                                delegates the processing of the listto the `process_list_for_dumps` method of the
+                                `JsonDot` class.Args:l (list): The list to be processed.Returns:The processed list,
+                                formatted for JSON serialization.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>The processed list, formatted for JSON serialization.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def format_json</h3>
+                            <p>Formats a JSON string into a more readable format.Args:s (str): The JSON string to be
+                                formatted.Returns:str: A formatted and indented JSON string.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>s (str): The JSON string to be formatted.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: A formatted and indented JSON string.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def remove_slash</h3>
+                            <p>Removes slashes from the given string.Args:s (str): The input string from which slashes
+                                should be removed.Returns:str: A new string with all slashes removed.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>s (str): The input string from which slashes should be removed.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: A new string with all slashes removed.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def load_field</h3>
+                            <p>Sets an attribute on the current object with the given name and value.Args:name (str):
+                                The name of the attribute to set. It will be formattedusing the `format_param` method
+                                before being set.value (Any): The value to assign to the attribute.Returns:self: The
+                                current instance of the object, allowing for method chaining.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>name (str): The name of the attribute to set. It will be formatted</li>
+                                    <li>using the `format_param` method before being set.</li>
+                                    <li>value (Any): The value to assign to the attribute.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>self: The current instance of the object, allowing for method chaining.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def add_field</h3>
+                            <p>Adds a new field to the object with the specified name and value.Args:name (str): The
+                                name of the field to add. It will be formatted using `format_param`.value (Any): The
+                                value to assign to the field. If the value is a list, it will beprocessed using
+                                `process_list` before being assigned.Returns:self: The instance of the object, allowing
+                                for method chaining.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>name (str): The name of the field to add. It will be formatted using
+                                        `format_param`.</li>
+                                    <li>value (Any): The value to assign to the field. If the value is a list, it will
+                                        be</li>
+                                    <li>processed using `process_list` before being assigned.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>self: The instance of the object, allowing for method chaining.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def change_field_name</h3>
+                            <p>Changes the name of an existing field in the object.Args:name (str): The current name of
+                                the field to be changed.new_name (str): The new name to assign to the
+                                field.Returns:self: The instance of the object, allowing for method chaining.Notes:- The
+                                method uses `format_param` to process both the current and new field names.- If the
+                                field exists, its value is preserved under the new name, and the old field is removed.-
+                                If the object has a `translation` attribute and the old field name exists in it,the
+                                translation mapping is updated to reflect the new field name.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>name (str): The current name of the field to be changed.</li>
+                                    <li>new_name (str): The new name to assign to the field.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>self: The instance of the object, allowing for method chaining.</li>
+                                    <li>Notes:</li>
+                                    <li>- The method uses `format_param` to process both the current and new field
+                                        names.</li>
+                                    <li>- If the field exists, its value is preserved under the new name, and the old
+                                        field is removed.</li>
+                                    <li>- If the object has a `translation` attribute and the old field name exists in
+                                        it,</li>
+                                    <li>the translation mapping is updated to reflect the new field name.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def dumps</h3>
+                            <p>Serializes the current object to a formatted JSON string.This method first generates a
+                                JSON representation of the objectusing the `_dumps` method, and then formats the JSON
+                                stringusing the `format_json` method.Returns:str: A formatted JSON string representation
+                                of the object.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: A formatted JSON string representation of the object.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def _dumps</h3>
+                            <p>Serializes the attributes of the current object into a string representation.This method
+                                iterates through the attributes of the object, processes them based on their type,and
+                                constructs a dictionary representation of the object. The dictionary is then convertedto
+                                a string and returned.Returns:str: A string representation of the object\'s
+                                attributes.Processing Details:- If an attribute is an instance of `Dot`, its `_dumps`
+                                method is recursively called.- If an attribute is a list, each element is processed:- If
+                                the element is a `Dot` instance, its `_dumps` method is called.- If the element is a
+                                nested list, it is processed using `process_list_for_dumps`.- Otherwise, the element is
+                                added to the list as-is.- If an attribute is a boolean, it is converted to a lowercase
+                                string.- Attributes named \'translation\' and \'file_path\' are excluded from the
+                                output.- If a `translation` dictionary is present, attribute keys are translated based
+                                on it.- Slashes in serialized `Dot` objects are removed using `remove_slash`.Note:- The
+                                method assumes the presence of `translation`, `remove_slash`, and
+                                `process_list_for_dumps`as part of the object\'s attributes or methods.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: A string representation of the object\'s attributes.</li>
+                                    <li>Processing Details:</li>
+                                    <li>- If an attribute is an instance of `Dot`, its `_dumps` method is recursively
+                                        called.</li>
+                                    <li>- If an attribute is a list, each element is processed:</li>
+                                    <li>- If the element is a `Dot` instance, its `_dumps` method is called.</li>
+                                    <li>- If the element is a nested list, it is processed using
+                                        `process_list_for_dumps`.</li>
+                                    <li>- Otherwise, the element is added to the list as-is.</li>
+                                    <li>- If an attribute is a boolean, it is converted to a lowercase string.</li>
+                                    <li>- Attributes named \'translation\' and \'file_path\' are excluded from the
+                                        output.</li>
+                                    <li>- If a `translation` dictionary is present, attribute keys are translated based
+                                        on it.</li>
+                                    <li>- Slashes in serialized `Dot` objects are removed using `remove_slash`.</li>
+                                    <li>Note:</li>
+                                    <li>- The method assumes the presence of `translation`, `remove_slash`, and
+                                        `process_list_for_dumps`</li>
+                                    <li>as part of the object\'s attributes or methods.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def dump</h3>
+                            <p>Serializes the current object to a JSON file.Args:path (Optional[str]): The file path
+                                where the JSON data will be written.If not provided, the instance\'s `file_path`
+                                attributewill be used.Raises:ValueError: If no valid file path is provided.Notes:- If
+                                `path` is not specified and `self.file_path` is None, a ValueErrorwill be raised.- The
+                                JSON data is formatted before being written to the file.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (Optional[str]): The file path where the JSON data will be written.</li>
+                                    <li>If not provided, the instance\'s `file_path` attribute</li>
+                                    <li>will be used.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                                <ul>
+                                    <li>ValueError: If no valid file path is provided.</li>
+                                    <li>Notes:</li>
+                                    <li>- If `path` is not specified and `self.file_path` is None, a ValueError</li>
+                                    <li>will be raised.</li>
+                                    <li>- The JSON data is formatted before being written to the file.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def items</h3>
+                            <p>Retrieves the items of the object\'s dictionary, applies a translationto the keys or
+                                values, and returns the translated items.Returns:dict_items: A view object that displays
+                                a list of the dictionary\'skey-value pairs after applying the translation.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>dict_items: A view object that displays a list of the dictionary\'s</li>
+                                    <li>key-value pairs after applying the translation.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def translate</h3>
+                            <p>Translates the keys of a dictionary based on a given translation mapping.Args:dictionary
+                                (dict): The input dictionary whose keys need to be translated.translation (dict): A
+                                mapping dictionary where the keys are the originalkeys from the input dictionary, and
+                                the values are the translated keys.Returns:dict: A new dictionary with the keys
+                                translated based on the providedtranslation mapping.Notes:- If a value in the input
+                                dictionary is an instance of `Dot`, the methodrecursively translates its attributes.-
+                                The key \'translation\' is skipped during the translation process.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>dictionary (dict): The input dictionary whose keys need to be translated.</li>
+                                    <li>translation (dict): A mapping dictionary where the keys are the original</li>
+                                    <li>keys from the input dictionary, and the values are the translated keys.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>dict: A new dictionary with the keys translated based on the provided</li>
+                                    <li>translation mapping.</li>
+                                    <li>Notes:</li>
+                                    <li>- If a value in the input dictionary is an instance of `Dot`, the method</li>
+                                    <li>recursively translates its attributes.</li>
+                                    <li>- The key \'translation\' is skipped during the translation process.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1>class JsonDot</h1>
+            <p>JsonDot is a utility class for loading, processing, and manipulating JSON data<br>with a dot notation
+                interface. It provides methods to load JSON from strings<br>or files, process lists, and format JSON
+                strings.<br>Methods<br>-------<br>__init__():<br>Initializes an instance of the JsonDot
+                class.<br>loads(s: str, path) -> Dot:<br>Loads JSON data from a string and returns a Dot
+                object.<br>load(path: str, dot: Optional[Dot] = None) -> Dot:<br>Loads JSON data from a file and returns
+                a Dot object.<br>create_dot_from_file(path: str) -> Dot:<br>Creates a Dot object from a JSON
+                file.<br>load_data(data: Union[dict, list], dot: Union[Dot, list], path: str = None) -> Dot:<br>Loads
+                JSON data into a Dot object or list.<br>format_param(param: str) -> str:<br>Formats a parameter string
+                by replacing spaces and hyphens with underscores<br>and converting it to lowercase.<br>format_json(s:
+                str) -> str:<br>Formats a JSON string by replacing single quotes with double quotes.<br>remove_slash(s:
+                str) -> str:<br>Removes backslashes and double quotes from a string.<br>process_list_for_load(l: list,
+                path: str = None) -> list:<br>Processes a list for loading JSON data.<br>process_list_static(l: list,
+                file_path: Optional[str] = None):<br>Processes a list statically for JSON data.<br>process_list(l: list,
+                path: str = None) -> list:<br>Processes a list for JSON data.<br>process_list_for_dumps(l: list) ->
+                list:<br>Processes a list for dumping JSON data.<br>Private Methods<br>---------------<br>_load(path:
+                str, dot: Optional[Dot] = None) -> Dot:<br>Internal method to load JSON data from a
+                file.<br>__load_data(data: Union[dict, list], dot: Union[Dot, list], path: str = None) ->
+                Dot:<br>Internal method to recursively load JSON data into a Dot object or
+                list.<br>__shared_process_list(l: list, file_path: Optional[str]) -> list:<br>Internal method to process
+                lists for JSON data.</p>
+            <div class="methods">
+                <h2>Methods</h2>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __init__</h3>
+                            <p>Initializes an instance of the class.Attributes:file_path (str): The file path to be
+                                used. Defaults to an empty string.data (Any): Placeholder for data to be loaded or
+                                processed. Defaults to None.dot (Any): Placeholder for dot-related data or operations.
+                                Defaults to None.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def loads</h3>
+                            <p>Deserialize a JSON-formatted string into a Dot object.Args:s (str): The JSON-formatted
+                                string to deserialize.path: The path to associate with the Dot object.Returns:Dot: A Dot
+                                object populated with the data from the JSON string.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>s (str): The JSON-formatted string to deserialize.</li>
+                                    <li>path: The path to associate with the Dot object.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Dot: A Dot object populated with the data from the JSON string.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def load</h3>
+                            <p>Load a JSON file from the specified path and return a Dot object.Args:path (str): The
+                                file path to the JSON file to be loaded.dot (Optional[Dot]): An optional Dot object to
+                                populate with the loaded data.If not provided, a new Dot object will be
+                                created.Returns:Dot: The Dot object containing the data from the loaded JSON file.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (str): The file path to the JSON file to be loaded.</li>
+                                    <li>dot (Optional[Dot]): An optional Dot object to populate with the loaded data.
+                                    </li>
+                                    <li>If not provided, a new Dot object will be created.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Dot: The Dot object containing the data from the loaded JSON file.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def create_dot_from_file</h3>
+                            <p>Create a Dot object from a JSON file.This method loads a JSON file from the specified
+                                path and converts itinto a Dot object.Args:path (str): The file path to the JSON
+                                file.Returns:Dot: An instance of the Dot class created from the JSON file.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (str): The file path to the JSON file.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Dot: An instance of the Dot class created from the JSON file.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def _load</h3>
+                            <p>Load data from a JSON file and populate a Dot object.Args:path (str): The file path to
+                                the JSON file to be loaded.dot (Optional[Dot], optional): An existing Dot object to
+                                populate.If not provided or not an instance of Dot, a new Dot object will be created.
+                                Defaults to None.Returns:Dot: The populated Dot object.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>path (str): The file path to the JSON file to be loaded.</li>
+                                    <li>dot (Optional[Dot], optional): An existing Dot object to populate.</li>
+                                    <li>If not provided or not an instance of Dot, a new Dot object will be created.
+                                        Defaults to None.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Dot: The populated Dot object.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def load_data</h3>
+                            <p>Load data into a Dot object or a list of Dot objects.This method processes the given data
+                                and populates the provided Dot object(s)with the corresponding values. Optionally, a
+                                path can be specified to indicatethe base path for the data.Args:data (Union[dict,
+                                list]): The data to be loaded, either as a dictionary or a list.dot (Union[Dot, list]):
+                                The target Dot object or a list of Dot objects to populate.path (str, optional): The
+                                base path for the data. Defaults to None.Returns:Dot: The populated Dot object.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>data (Union[dict, list]): The data to be loaded, either as a dictionary or a
+                                        list.</li>
+                                    <li>dot (Union[Dot, list]): The target Dot object or a list of Dot objects to
+                                        populate.</li>
+                                    <li>path (str, optional): The base path for the data. Defaults to None.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Dot: The populated Dot object.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __load_data</h3>
+                            <p>Recursively loads data from a dictionary or list into a Dot object.Args:data (Union[dict,
+                                list]): The input data to be loaded, which can be a dictionary or a list.dot (Union[Dot,
+                                list]): The target Dot object or list where the data will be loaded.path (str,
+                                optional): The current path in the data hierarchy. Defaults to None.Returns:Dot: The Dot
+                                object populated with the loaded data.Notes:- If a value in the data is a dictionary, it
+                                recursively creates a new Dot object for it.- If a value is a list, it processes the
+                                list using `process_list_for_load`.- String values of "true" and "false"
+                                (case-insensitive) are converted to boolean True and False, respectively.- Other values
+                                are directly loaded into the Dot object.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>data (Union[dict, list]): The input data to be loaded, which can be a dictionary
+                                        or a list.</li>
+                                    <li>dot (Union[Dot, list]): The target Dot object or list where the data will be
+                                        loaded.</li>
+                                    <li>path (str, optional): The current path in the data hierarchy. Defaults to None.
+                                    </li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>Dot: The Dot object populated with the loaded data.</li>
+                                    <li>Notes:</li>
+                                    <li>- If a value in the data is a dictionary, it recursively creates a new Dot
+                                        object for it.</li>
+                                    <li>- If a value is a list, it processes the list using `process_list_for_load`.
+                                    </li>
+                                    <li>- String values of "true" and "false" (case-insensitive) are converted to
+                                        boolean True and False, respectively.</li>
+                                    <li>- Other values are directly loaded into the Dot object.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def format_param</h3>
+                            <p>Formats a given parameter string by replacing hyphens (\'-\') and spaces (\' \')with
+                                underscores (\'_\') and converting all characters to lowercase.Args:param (str): The
+                                input string to be formatted.Returns:str: The formatted string with hyphens and spaces
+                                replaced by underscoresand all characters in lowercase.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>param (str): The input string to be formatted.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: The formatted string with hyphens and spaces replaced by underscores</li>
+                                    <li>and all characters in lowercase.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def format_json</h3>
+                            <p>Formats a given JSON-like string by replacing single quotes with double quotesand
+                                replacing double quotes with spaces.Args:s (str): The input string to be
+                                formatted.Returns:str: The formatted string with single quotes replaced by double
+                                quotesand double quotes replaced by spaces.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>s (str): The input string to be formatted.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: The formatted string with single quotes replaced by double quotes</li>
+                                    <li>and double quotes replaced by spaces.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def remove_slash</h3>
+                            <p>Removes backslashes and double quotes from the input string.Args:s (str): The input
+                                string to process.Returns:str: A new string with all backslashes and double quotes
+                                removed.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>s (str): The input string to process.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>str: A new string with all backslashes and double quotes removed.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list_for_load</h3>
+                            <p>Processes a list for loading by delegating to the `process_list` method.Args:l (list):
+                                The list to be processed.path (str, optional): The path associated with the list.
+                                Defaults to None.Returns:list: The processed list.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li>path (str, optional): The path associated with the list. Defaults to None.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>list: The processed list.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list_static</h3>
+                            <p>Processes a list in a static context, optionally using a specified file path.Args:l
+                                (list): The list to be processed.file_path (Optional[str], optional): The file path to
+                                be used during processing.Defaults to None.Returns:The result of processing the list
+                                using the shared processing logic.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li>file_path (Optional[str], optional): The file path to be used during processing.
+                                    </li>
+                                    <li>Defaults to None.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>The result of processing the list using the shared processing logic.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list</h3>
+                            <p>Processes a list and returns the result after applying a shared processing method.Args:l
+                                (list): The list to be processed.path (str, optional): An optional path string to be
+                                used during processing. Defaults to None.Returns:list: The processed list.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li>path (str, optional): An optional path string to be used during processing.
+                                        Defaults to None.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>list: The processed list.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def __shared_process_list</h3>
+                            <p>Processes a list by iterating through its elements and handling each elementbased on its
+                                type. If an element is a dictionary, it processes it using the`__load_data` method. If
+                                an element is a list, it recursively processes itusing `__shared_process_list`.
+                                Otherwise, it appends the element as is.Args:l (list): The list to be
+                                processed.file_path (Optional[str]): The file path to be used for creating Dot
+                                objects.Returns:list: A new list with processed elements.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>l (list): The list to be processed.</li>
+                                    <li>file_path (Optional[str]): The file path to be used for creating Dot objects.
+                                    </li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>list: A new list with processed elements.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+                <div>
+                    <h3>
+                        <div class="method">
+                            <h3>def process_list_for_dumps</h3>
+                            <p>Processes a list for serialization by converting its elements into a formatsuitable for
+                                dumping.This method iterates through the elements of the input list and processeseach
+                                element based on its type:- If the element is an instance of `Dot`, it calls the
+                                `_dumps` method ofthe `Dot` instance to serialize it.- If the element is a nested list,
+                                it recursively processes the nested listby calling `process_list_for_dumps`.- For all
+                                other types, the element is added to the result as is.Args:cls: The class reference,
+                                used for recursive calls.l (list): The input list to be processed.Returns:list: A new
+                                list where each element has been processed for serialization.</p>
+                            <div class="parameters">
+                                <h4>Parameters</h4>
+                                <ul>
+                                    <li>cls: The class reference, used for recursive calls.</li>
+                                    <li>l (list): The input list to be processed.</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <div class="return">
+                                <h4>Returns</h4>
+                                <ul>
+                                    <li>list: A new list where each element has been processed for serialization.</li>
+                                </ul>
+                            </div>
+                            <div class="raises">
+                                <h4>Raises</h4>
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<footer>
+    <p>&copy; 2023 MitsSoft. All rights reserved. Licensed under MIT License.</p>
+</footer>
+
+</html>
