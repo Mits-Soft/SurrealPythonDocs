@@ -334,9 +334,9 @@ class ClassDiv:
         self.line_number = 0
         self.dcmnt_path = ""
         self.template = f"""
-        <div>
+        <div class="class-external">
             <h1>{name}</h1>
-            <p>{description.replace('\n', '<br>')}</p>
+            <p class="class-description">{description.replace('\n', '<br>')}</p>
             <div class="methods">
             <h2>Methods</h2>
             <!-- Methods for this class will be added here -->
@@ -493,6 +493,3 @@ class MethodDiv:
             raises_html
         )
 
-
-# if __name__ == "__main__":
-#     SurrealPythonDocs()

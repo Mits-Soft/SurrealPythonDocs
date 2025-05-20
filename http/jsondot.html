@@ -10,12 +10,12 @@
 
 <body>
     <div class="main-container">
-        <div>
+        <div class="class-external">
             <h1>class Dot</h1>
-            <p>Dot is a class that provides functionality for managing JSON-like data structures<br>with additional
-                features such as dynamic attribute setting, JSON serialization,<br>and field name
-                translation.<br>Attributes:<br>file_path (Optional[str]): The file path associated with the Dot
-                instance.<br>translation (dict): A dictionary used for translating field
+            <p class="class-description">Dot is a class that provides functionality for managing JSON-like data
+                structures<br>with additional features such as dynamic attribute setting, JSON serialization,<br>and
+                field name translation.<br>Attributes:<br>file_path (Optional[str]): The file path associated with the
+                Dot instance.<br>translation (dict): A dictionary used for translating field
                 names.<br>Methods:<br>__init__(file_path: Optional[str] = None) -> None:<br>Initializes a Dot instance
                 with an optional file path.<br>__str__() -> str:<br>Returns a string representation of the Dot
                 instance.<br>__setattr__(name: str, value: Any) -> None:<br>Dynamically sets attributes, processing
@@ -688,12 +688,12 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="class-external">
             <h1>class JsonDot</h1>
-            <p>JsonDot is a utility class for loading, processing, and manipulating JSON data<br>with a dot notation
-                interface. It provides methods to load JSON from strings<br>or files, process lists, and format JSON
-                strings.<br>Methods<br>-------<br>__init__():<br>Initializes an instance of the JsonDot
-                class.<br>loads(s: str, path) -> Dot:<br>Loads JSON data from a string and returns a Dot
+            <p class="class-description">JsonDot is a utility class for loading, processing, and manipulating JSON
+                data<br>with a dot notation interface. It provides methods to load JSON from strings<br>or files,
+                process lists, and format JSON strings.<br>Methods<br>-------<br>__init__():<br>Initializes an instance
+                of the JsonDot class.<br>loads(s: str, path) -> Dot:<br>Loads JSON data from a string and returns a Dot
                 object.<br>load(path: str, dot: Optional[Dot] = None) -> Dot:<br>Loads JSON data from a file and returns
                 a Dot object.<br>create_dot_from_file(path: str) -> Dot:<br>Creates a Dot object from a JSON
                 file.<br>load_data(data: Union[dict, list], dot: Union[Dot, list], path: str = None) -> Dot:<br>Loads
