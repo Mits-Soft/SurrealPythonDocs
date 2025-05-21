@@ -2,6 +2,7 @@ import os
 from MrWalk import MrWalk
 from pathlib import Path
 import copy
+import shutil
 
 class SurrealPythonDocs:
     """
@@ -281,6 +282,12 @@ class SurrealPythonDocs:
     def save_documentation_to_files(self):
         pth = Path(".") / "docs"
         os.makedirs(pth, exist_ok=True)
+        src_css_dir = Path(".") / "resources" / "css"
+        dst_css_dir = pth / "css"
+        if src_css_dir.exists() and src_css_dir.is_dir():
+            if dst_css_dir.exists():
+                shutil.rmtree(dst_css_dir)
+            shutil.copytree(src_css_dir, dst_css_dir)
         files_names = []
         files_contents = []
         for file_text in self.final_documents_text:
@@ -321,7 +328,7 @@ class HtmlDocument:
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="light_styles.css">
+            <link rel="stylesheet" href="css/light_styles.css">
             <title>{title}</title>
         </head>
         <body>
