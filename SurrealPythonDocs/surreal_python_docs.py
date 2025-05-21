@@ -1,8 +1,7 @@
+import os
 from MrWalk import MrWalk
 from pathlib import Path
 import copy
-import re
-
 
 class SurrealPythonDocs:
     """
@@ -26,6 +25,7 @@ class SurrealPythonDocs:
             "classes": [],
             "methods": []
         }
+        self.final_documents_text = ""
         print(
             f"SurrealPythonDocs: Surreal initialized with root_path: {self.root_path}")
 
@@ -191,7 +191,6 @@ class SurrealPythonDocs:
             ],
             "markup": []
         }
-
         for d in data.items():
             elements = []
             doc = copy.deepcopy(document)
@@ -274,9 +273,27 @@ class SurrealPythonDocs:
                 cl_mrkp = cl_val["markup"]
                 class_html += cl_mrkp.template.replace('\n', '')
             html_doc.add_content(class_html)
-            final_documents.append(html_doc.template.replace('\n', '').strip())
+            final_documents.append({module["document_path"]: html_doc.template.replace('\n', '').strip()})
+            self.final_documents_text = final_documents
+            self.save_documentation_to_files()            
         return final_documents
     
+    def save_documentation_to_files(self):
+        pth = Path(".") / "docs"
+        os.makedirs(pth, exist_ok=True)
+        files_names = []
+        files_contents = []
+        for file_text in self.final_documents_text:
+            files_contents.append(list(file_text.values())[0])
+        for file_path in self.final_documents_text:
+            module_name = Path(list(file_path.keys())[0]).stem  # solo el nombre del archivo sin extensión
+            html_file_name = f"{module_name}.html"
+            files_names.append(html_file_name)
+        for idx, file_name in enumerate(files_names):
+            file_path = pth / file_name
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(files_contents[idx])
+            
     def get_class_by_name(self, document, class_name):
         for class_dict in document["classes"]:
             # Cada elemento es un diccionario con un solo par clave:valor
