@@ -357,17 +357,103 @@ class ClassDiv:
         self.type = ""
         self.line_number = 0
         self.dcmnt_path = ""
+        self.clss_dscrptn_objct = self.extract_class_description_parts(description)
+        # Construir la descripción de la clase usando las partes extraídas
+        short_desc = self.clss_dscrptn_objct.get("short_description", "")
+        long_desc = self.clss_dscrptn_objct.get("long_description", "")
+        attributes = self.clss_dscrptn_objct.get("attributes", [])
+        other_sections = self.clss_dscrptn_objct.get("other_sections", {})
+
+        attributes_html = ""
+        if attributes:
+            attributes_html = "<div class='class-attributes'><h3>Attributes</h3><ul>"
+            for attr in attributes:
+                attributes_html += f"<li>{attr}</li>"
+            attributes_html += "</ul></div>"
+
+        other_sections_html = ""
+        for sec, content in other_sections.items():
+            if content:
+                sec_title = sec.replace("_", " ").title()
+                other_sections_html += f"<div class='class-section'><h3>{sec_title}</h3><p>{content.replace(chr(10), '<br>')}</p></div>"
+
         self.template = f"""
         <div class="class-external">
             <h1>{name}</h1>
-            <p class="class-description">{description.replace('\n', '<br>')}</p>
+            <p class="class-short-description">{short_desc}</p>
+            {'<p class="class-long-description">' + long_desc + '</p>' if long_desc else ''}
+            {attributes_html}
+            {other_sections_html}
             <div class="methods">
             <h2>Methods</h2>
             <!-- Methods for this class will be added here -->
             </div>
         </div>
         """
+    
+    def extract_class_description_parts(self, class_description: str):
+        """
+        Extracts the parts of a class docstring: short description, long description, attributes, and other sections.
 
+        Args:
+            class_description (str): The class docstring.
+
+        Returns:
+            dict: A dictionary with the parts: 'short_description', 'long_description', 'attributes', 'other_sections'
+        """
+        parts = {
+            "short_description": "",
+            "long_description": "",
+            "attributes": [],
+            "other_sections": {}
+        }
+
+        lines = [ln.strip() for ln in class_description.splitlines() if ln.strip()]
+        if not lines:
+            return parts
+
+        # Short description: first non-empty line
+        parts["short_description"] = lines[0]
+
+        # Find section indices (Attributes, Methods, Internal Methods, Examples, etc.)
+        section_indices = {}
+        for idx, ln in enumerate(lines):
+            lower_ln = ln.lower()
+            if lower_ln.startswith("attributes"):
+                section_indices["attributes"] = idx
+            elif lower_ln.startswith("methods"):
+                section_indices["methods"] = idx
+            elif lower_ln.startswith("internal methods"):
+                section_indices["internal_methods"] = idx
+            elif lower_ln.startswith("examples"):
+                section_indices["examples"] = idx
+            elif lower_ln.startswith("note"):
+                section_indices["note"] = idx
+            elif lower_ln.startswith("see also"):
+                section_indices["see_also"] = idx
+
+        # Attributes
+        if "attributes" in section_indices:
+            attr_start = section_indices["attributes"] + 1
+            # Find the next section index or end
+            next_sections = [i for k, i in section_indices.items() if i > section_indices["attributes"]]
+            attr_end = min(next_sections) if next_sections else len(lines)
+            attrs = []
+            for ln in lines[attr_start:attr_end]:
+                if ln:
+                    attrs.append(ln)
+            parts["attributes"] = attrs
+
+        # Other sections (including Methods and Internal Methods)
+        for sec, idx in section_indices.items():
+            if sec == "attributes":
+                continue
+            next_sections = [i for k, i in section_indices.items() if i > idx]
+            sec_end = min(next_sections) if next_sections else len(lines)
+            parts["other_sections"][sec] = "\n".join(lines[idx+1:sec_end]).strip()
+
+        return parts
+        
     def add_methods(self, methods):
         """Replace the methods placeholder with a list of methods in HTML."""
         methods_html = "".join(
