@@ -370,7 +370,7 @@ class ClassDiv:
             attributes_html = "<div class='class-attributes'><h3>Attributes</h3><ul>"
             for attr in attributes:
                 attributes_html += f"<li>{attr}</li>"
-            attributes_html += "</ul><br></div>"
+            attributes_html += "</ul></div>"# <br>
 
         # Métodos en la descripción de la clase (sin línea en blanco entre título y descripción)
         methods_html = ""
@@ -506,10 +506,11 @@ class MethodDiv:
         self.type = ""
         self.line_number = 0
         clnd_mthd = self.extract_method_parts(description)
+        clean_desc = " ".join(clnd_mthd["clean_description"])
         self.template = f"""
         <div class="method">
             <h3>{name}</h3>
-            <p>{description.replace('\n', '')}</p>
+            <p>{clean_desc}</p>
             <div class="parameters">
                 <h4>Parameters</h4>
                 <!-- Method parameters will be added here -->
@@ -527,7 +528,6 @@ class MethodDiv:
         self.add_parameters(clnd_mthd["args"])
         self.add_return(clnd_mthd["return"])
         self.add_raises(clnd_mthd["raises"])
-        
     def extract_method_parts(self, method_docstr: str):
         mthd_rtrn_prts = {
             "clean_description": "",
@@ -536,69 +536,57 @@ class MethodDiv:
             "raises": ""
         }
         prts_nchrs = {
-            "description": 0,
-            "args": "",
-            "return": "",
-            "raises": ""
+            "args": None,
+            "return": None,
+            "raises": None
         }
         mthd_dcstr_lns = method_docstr.splitlines()
+        # Find section anchors
         for idx, ln in enumerate(mthd_dcstr_lns):
-            if ("Args" or "Arguments" or "Parameters") in ln:
+            lower_ln = ln.strip().lower()
+            if prts_nchrs["args"] is None and (lower_ln.startswith("args") or lower_ln.startswith("arguments") or lower_ln.startswith("parameters")):
                 prts_nchrs["args"] = idx
-            elif ("Return" or "Returns") in ln:
+            elif prts_nchrs["return"] is None and (lower_ln.startswith("return") or lower_ln.startswith("returns")):
                 prts_nchrs["return"] = idx
-            elif ("Raises" or "Exceptions" or "Throws") in ln:
+            elif prts_nchrs["raises"] is None and (lower_ln.startswith("raises") or lower_ln.startswith("exceptions") or lower_ln.startswith("throws")):
                 prts_nchrs["raises"] = idx
-        # Determine section indices
-        args_idx = prts_nchrs["args"] if prts_nchrs["args"] else None
-        return_idx = prts_nchrs["return"] if prts_nchrs["return"] else None
-        raises_idx = prts_nchrs["raises"] if prts_nchrs["raises"] else None
 
-        # Clean description
-        if args_idx:
-            cln_dscrptn_strng = []
-            for dscrptn_lns_indx in range(0 ,args_idx):
-                line = mthd_dcstr_lns[dscrptn_lns_indx]
-                cln_dscrptn_strng.append(line)
-            mthd_rtrn_prts["clean_description"] = cln_dscrptn_strng
+        # Determine section indices
+        args_idx = prts_nchrs["args"]
+        return_idx = prts_nchrs["return"]
+        raises_idx = prts_nchrs["raises"]
+
+        # Clean description: everything before the first section (args/return/raises)
+        section_indices = [i for i in [args_idx, return_idx, raises_idx] if i is not None]
+        if section_indices:
+            first_section = min(section_indices)
+            cln_dscrptn_strng = [line for line in mthd_dcstr_lns[:first_section] if line.strip()]
+        else:
+            cln_dscrptn_strng = [line for line in mthd_dcstr_lns if line.strip()]
+        mthd_rtrn_prts["clean_description"] = cln_dscrptn_strng
 
         # Extract arguments
-        if args_idx and (return_idx or raises_idx):
-            rgs_strng = []
-            end_idx = return_idx if return_idx else (raises_idx if raises_idx else len(mthd_dcstr_lns))
-            for args_ndx in range(args_idx + 1, end_idx):
-                args_line = mthd_dcstr_lns[args_ndx]
-                rgs_strng.append(args_line)
-            mthd_rtrn_prts["args"] = rgs_strng
-        elif args_idx:
-            only_args_string = []
-            for idx in range(args_idx + 1, len(mthd_dcstr_lns)):
-                only_args_string.append(mthd_dcstr_lns[idx])
-            mthd_rtrn_prts["args"] = only_args_string
+        if args_idx is not None:
+            next_sections = [i for i in [return_idx, raises_idx] if i is not None and i > args_idx]
+            end_idx = min(next_sections) if next_sections else len(mthd_dcstr_lns)
+            mthd_rtrn_prts["args"] = [mthd_dcstr_lns[i].strip() for i in range(args_idx + 1, end_idx) if mthd_dcstr_lns[i].strip()]
         else:
-            mthd_rtrn_prts["args"] = [""]
+            mthd_rtrn_prts["args"] = []
 
         # Extract return
-        return_string = []
-        if return_idx and raises_idx:
-            for idx in range(return_idx + 1, raises_idx):
-                return_string.append(mthd_dcstr_lns[idx])
-            mthd_rtrn_prts["return"] = return_string
-        elif return_idx:
-            for idx in range(return_idx + 1, len(mthd_dcstr_lns)):
-                return_string.append(mthd_dcstr_lns[idx])
-            mthd_rtrn_prts["return"] = return_string
+        if return_idx is not None:
+            next_sections = [i for i in [raises_idx] if i is not None and i > return_idx]
+            end_idx = min(next_sections) if next_sections else len(mthd_dcstr_lns)
+            mthd_rtrn_prts["return"] = [mthd_dcstr_lns[i].strip() for i in range(return_idx + 1, end_idx) if mthd_dcstr_lns[i].strip()]
         else:
-            mthd_rtrn_prts["return"] = [""]
+            mthd_rtrn_prts["return"] = []
 
         # Extract raises
-        raises_strings_list = []
-        if raises_idx:
-            for idx in range(raises_idx + 1, len(mthd_dcstr_lns)):
-                raises_strings_list.append(mthd_dcstr_lns[idx])
-            mthd_rtrn_prts["raises"] = raises_strings_list
+        if raises_idx is not None:
+            end_idx = len(mthd_dcstr_lns)
+            mthd_rtrn_prts["raises"] = [mthd_dcstr_lns[i].strip() for i in range(raises_idx + 1, end_idx) if mthd_dcstr_lns[i].strip()]
         else:
-            mthd_rtrn_prts["raises"] = [""]
+            mthd_rtrn_prts["raises"] = []
 
         return mthd_rtrn_prts
 
