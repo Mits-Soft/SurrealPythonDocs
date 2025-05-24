@@ -474,8 +474,7 @@ class JsonDot():
     JsonDot is a utility class for loading, processing, and manipulating JSON data
     with a dot notation interface. It provides methods to load JSON from strings
     or files, process lists, and format JSON strings.
-    Methods
-    -------
+    Methods:
     __init__():
         Initializes an instance of the JsonDot class.
     loads(s: str, path) -> Dot:
@@ -501,8 +500,7 @@ class JsonDot():
         Processes a list for JSON data.
     process_list_for_dumps(l: list) -> list:
         Processes a list for dumping JSON data.
-    Private Methods
-    ---------------
+    Private Methods:
     _load(path: str, dot: Optional[Dot] = None) -> Dot:
         Internal method to load JSON data from a file.
     __load_data(data: Union[dict, list], dot: Union[Dot, list], path: str = None) -> Dot:

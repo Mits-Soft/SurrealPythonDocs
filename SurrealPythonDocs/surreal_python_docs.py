@@ -362,6 +362,7 @@ class ClassDiv:
         short_desc = self.clss_dscrptn_objct.get("short_description", "")
         long_desc = self.clss_dscrptn_objct.get("long_description", "")
         attributes = self.clss_dscrptn_objct.get("attributes", [])
+        methods = self.clss_dscrptn_objct.get("methods", [])
         other_sections = self.clss_dscrptn_objct.get("other_sections", {})
 
         attributes_html = ""
@@ -369,13 +370,33 @@ class ClassDiv:
             attributes_html = "<div class='class-attributes'><h3>Attributes</h3><ul>"
             for attr in attributes:
                 attributes_html += f"<li>{attr}</li>"
-            attributes_html += "</ul></div>"
+            attributes_html += "</ul><br></div>"
+
+        # Métodos en la descripción de la clase (sin línea en blanco entre título y descripción)
+        methods_html = ""
+        if methods:
+            methods_html = "<div class='class-methods'><h3>Methods</h3><ul style='list-style-type:none;'>"
+            for mthd in methods:
+                # Si hay ":", tabula la descripción corta
+                if ":" in mthd:
+                    mthd_name, mthd_desc = mthd.split(":", 1)
+                    methods_html += (
+                        f"<li><b>{mthd_name.strip()}</b>:"
+                        f"<span style='margin-left: 1.5em'>{mthd_desc.strip()}</span></li>"
+                    )
+                else:
+                    methods_html += f"<li>{mthd}</li>"
+            methods_html += "</ul><br></div>"
 
         other_sections_html = ""
         for sec, content in other_sections.items():
             if content:
                 sec_title = sec.replace("_", " ").title()
-                other_sections_html += f"<div class='class-section'><h3>{sec_title}</h3><p>{content.replace(chr(10), '<br>')}</p></div>"
+                lines = [ln for ln in content.splitlines() if ln.strip() != ""]
+                section_html = ""
+                for ln in lines:
+                    section_html += f"{ln}<br>"
+                other_sections_html += f"<div class='class-section'><h3>{sec_title}</h3><p>{section_html}</p></div>"
 
         self.template = f"""
         <div class="class-external">
@@ -383,6 +404,7 @@ class ClassDiv:
             <p class="class-short-description">{short_desc}</p>
             {'<p class="class-long-description">' + long_desc + '</p>' if long_desc else ''}
             {attributes_html}
+            {methods_html}
             {other_sections_html}
             <div class="methods">
             <h2>Methods</h2>
@@ -393,18 +415,19 @@ class ClassDiv:
     
     def extract_class_description_parts(self, class_description: str):
         """
-        Extracts the parts of a class docstring: short description, long description, attributes, and other sections.
+        Extracts the parts of a class docstring: short description, long description, attributes, methods, and other sections.
 
         Args:
             class_description (str): The class docstring.
 
         Returns:
-            dict: A dictionary with the parts: 'short_description', 'long_description', 'attributes', 'other_sections'
+            dict: A dictionary with the parts: 'short_description', 'long_description', 'attributes', 'methods', 'other_sections'
         """
         parts = {
             "short_description": "",
             "long_description": "",
             "attributes": [],
+            "methods": [],
             "other_sections": {}
         }
 
@@ -435,7 +458,6 @@ class ClassDiv:
         # Attributes
         if "attributes" in section_indices:
             attr_start = section_indices["attributes"] + 1
-            # Find the next section index or end
             next_sections = [i for k, i in section_indices.items() if i > section_indices["attributes"]]
             attr_end = min(next_sections) if next_sections else len(lines)
             attrs = []
@@ -444,9 +466,20 @@ class ClassDiv:
                     attrs.append(ln)
             parts["attributes"] = attrs
 
-        # Other sections (including Methods and Internal Methods)
+        # Methods (conservar líneas y saltos)
+        if "methods" in section_indices:
+            mthd_start = section_indices["methods"] + 1
+            next_sections = [i for k, i in section_indices.items() if i > section_indices["methods"]]
+            mthd_end = min(next_sections) if next_sections else len(lines)
+            mthds = []
+            for ln in lines[mthd_start:mthd_end]:
+                if ln:
+                    mthds.append(ln)
+            parts["methods"] = mthds
+
+        # Other sections (including Internal Methods, Examples, etc.)
         for sec, idx in section_indices.items():
-            if sec == "attributes":
+            if sec in ("attributes", "methods"):
                 continue
             next_sections = [i for k, i in section_indices.items() if i > idx]
             sec_end = min(next_sections) if next_sections else len(lines)
@@ -457,7 +490,7 @@ class ClassDiv:
     def add_methods(self, methods):
         """Replace the methods placeholder with a list of methods in HTML."""
         methods_html = "".join(
-            f"<div><h3>{method.replace('\n', '')}</h3></div>" for method in methods
+            f"{method}" for method in methods
         )
         self.template = self.template.replace(
             "<!-- Methods for this class will be added here -->", methods_html
